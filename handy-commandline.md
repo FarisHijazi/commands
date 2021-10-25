@@ -21,12 +21,14 @@ find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {
 ```bash
 # solution provied by this answer: https://stackoverflow.com/a/545413/7771202
 
-# hash folder (without permissions)
-rm sha1sum_without_permissions; find . -type f -print0 | sort -z | xargs -P $(nproc --all) -0 sha1sum | awk '{ print $1 }' | tqdm --unit file --total $(find . -type f | wc -l) | sha1sum | tee sha1sum_without_permissions
-
+# to hash without permissions
+find . -type f -print0 | sort -z | xargs -P $(nproc --all) -0 sha1sum | tqdm --unit file --total $(find . -type f | wc -l) | sort | awk '{ print $1 }' | sha1sum
 # to hash permissions
-rm sha1sum_permissions; (find . -type f -print0  | sort -z | xargs -P $(nproc --all) -0 sha1sum | awk '{ print $1 }'; 
-find . \( -type f -o -type d \) -print0 | sort -z | xargs -P $(nproc --all) -0 stat -c '%n %a') | tqdm --unit file --total $(find . -type f | wc -l) | sha1sum | awk '{ print $1 }'| tee sha1sum_permissions
+(find . -type f -print0  | sort -z | xargs -P $(nproc --all) -0 sha1sum | sort | awk '{ print $1 }'; 
+  find . \( -type f -o -type d \) -print0 | sort -z | xargs -P $(nproc --all) -0 stat -c '%n %a') | \
+  tqdm --unit file --total $(find . -type f | wc -l) | \
+  sort | sha1sum | awk '{ print $1 }'
+
 ```
 
 ## Autostart an app before login
