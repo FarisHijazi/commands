@@ -47,9 +47,29 @@ echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
 
 ## Installing cuda
 
+### Using [lambda stack](https://lambdalabs.com/lambda-stack-deep-learning-software)
+
+### Using nnabla script
 find neat script at [nnabla.org/install](https://nnabla.org/install/)
 
+Install
+
 ```bash
+LAMBDA_REPO=$(mktemp) && \
+wget -O${LAMBDA_REPO} https://lambdalabs.com/static/misc/lambda-stack-repo.deb && \
+sudo dpkg -i ${LAMBDA_REPO} && rm -f ${LAMBDA_REPO} && \
+sudo apt-get update && sudo apt-get install -y lambda-stack-cuda
+sudo reboot
+```
+
+Update
+
+```bash
+sudo apt-get install docker.io nvidia-container-toolkit
+```
+
+```bash
+# this is all taken from nnabla.org/install
 apt-get update
 apt-get install -y --no-install-recommends \
 	gnupg2 \
