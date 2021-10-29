@@ -11,9 +11,16 @@ kill $(jobs -l 2>&1|cut -d' ' -f2|head -n1)
 pgrep -x jupyter|xargs kill -9 
 ## longer way:
 ps aux | grep jupyter | awk '{print $2}' | xargs sudo kill -9
+```
 
+## File editing
+
+```sh
 ## delete every other file, but save the first one
 find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {}
+
+## find and replace in multiple .txt files. replace "string" with "replacement" 
+find ./filelists/ -type f -name '*.txt*' -exec sed -i 's/string/replacement/g' {} \;
 ```
 
 ## Hashing a directory
