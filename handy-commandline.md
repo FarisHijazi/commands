@@ -21,6 +21,10 @@ find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {
 
 ## find and replace in multiple .txt files. replace "string" with "replacement" 
 find ./filelists/ -type f -name '*.txt*' -exec sed -i 's/string/replacement/g' {} \;
+
+## rename files
+## in this example, remove "22050" from the name
+find -name '*.wav' -exec rename 's/22050//' {} \;
 ```
 
 ## Hashing a directory
