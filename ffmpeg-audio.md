@@ -34,6 +34,17 @@ srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I
 srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
 ```
 
+**Using `sox` to remove silences on multiple files**
+
+Adds suffix "_unsilenced"
+
+```sh
+find -type f -name "*.wav" -not -name "*_unsilenced.wav" |\
+	xargs -I{} -P $(nproc --all) sh -c \
+	'sox "{}" "{}_unsilenced.wav" silence -l 1 0.1 1% -1 2.0 1% && echo""' | \
+	tqdm --total $(find -type f -name "*.wav" -not -name "*_unsilenced.wav"|wc -l)
+```
+
 **Delete corrupted files using `ffprobe`**
 
 ```bash
