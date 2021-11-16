@@ -1,4 +1,4 @@
-## Handy `ffmpeg` commands
+# Handy `ffmpeg` commands
 
 You can use this for `ffmpeg` things other than conversion of course (be sure to change `srcext` to the source extension)
 
@@ -14,14 +14,14 @@ srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I
 find . -not -name "*.22050.wav" -name "*.wav" -type f -delete
 ```
 
-**read durations of `.wav` files** (be sure to change `srcext` to the source extension)
+## read durations of `.wav` files (be sure to change `srcext` to the source extension)
 
 ```bash
 # **read durations of .wav files** (be sure to change srcext to the source extension)
 srcext=wav; find -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -i "$1" -show_entries format=duration -v quiet -of csv="p=0" ' _ {} \; | (tqdm --total $(find -name "*.$srcext" | wc -l) ) | (awk '{ sum += $1 } END { print sum }')
 ```
 
-**segmenting and resampling multiple audio files in parallel**
+## segmenting and resampling multiple audio files in parallel
 
 ```bash
 #**segmenting multiple audio files in parallel**
@@ -34,7 +34,7 @@ srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I
 srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
 ```
 
-**Using `sox` to remove silences on multiple files**
+## Using `sox` to remove silences on multiple files
 
 Adds suffix "_unsilenced"
 
@@ -45,7 +45,7 @@ find -type f -name "*.wav" -not -name "*_unsilenced.wav" |\
 	tqdm --total $(find -type f -name "*.wav" -not -name "*_unsilenced.wav"|wc -l)
 ```
 
-**Delete corrupted files using `ffprobe`**
+## Delete corrupted files using `ffprobe`
 
 ```bash
 srcext=wav; 
@@ -53,7 +53,7 @@ find -type f -name "*.$srcext" -size  0 -print -delete
 (find -type f -name "*.$srcext" -print  | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -loglevel error -hide_banner "$1"; echo "$1,$?" ' -- {}) | xargs -I{} echo {} | (tqdm --total $(find -name "*.$srcext" | wc -l)) | grep ,1 | awk -F',' '{print $1}' | xargs -I{} rm "{}"
 ```
 
-**For resetting timestamps of mp4 videos:**
+## For resetting timestamps of mp4 videos:
 
 ```bash
 # resetting timestamps of mp4 videos:
