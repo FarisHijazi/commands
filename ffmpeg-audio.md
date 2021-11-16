@@ -1,17 +1,28 @@
 # Handy `ffmpeg` commands
 
+These are just multiprocessed ffmpeg commands, you can change the ffmpeg command to what you want, but these are my most used ones.  
 You can use this for `ffmpeg` things other than conversion of course (be sure to change `srcext` to the source extension)
 
 ```bash
 # segments and converts audios with progressbar
 # `cd` to the parent directory of the audio files then run the command
-srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
 
-## just resample without segmenting
+## resample audio files (without segmenting)
 srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1  "${1%.*}.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
+
+
+## resample audio files and segment
+mkdir segments
+srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
+## experimental feature: moving outputs to a separate folder
+srcext=wav; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'mkdir -p "segments/$(dirname ${1})"; ffmpeg -i "$1" -hide_banner -y -loglevel panic -f segment -segment_time 6 -c copy "segments/${1%.*}.seg%03d.wav" && echo ""' -- {} | tqdm --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
+
 
 # then after that you could delete the other .wav files like so:
 find . -not -name "*.22050.wav" -name "*.wav" -type f -delete
+
+## tip: to delete the source files, add `&& rm "$1"` after the ffmpeg command before the `| echo ..`
+
 ```
 
 ## read durations of `.wav` files (be sure to change `srcext` to the source extension)
@@ -21,18 +32,6 @@ find . -not -name "*.22050.wav" -name "*.wav" -type f -delete
 srcext=wav; find -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -i "$1" -show_entries format=duration -v quiet -of csv="p=0" ' _ {} \; | (tqdm --total $(find -name "*.$srcext" | wc -l) ) | (awk '{ sum += $1 } END { print sum }')
 ```
 
-## segmenting and resampling multiple audio files in parallel
-
-```bash
-#**segmenting multiple audio files in parallel**
-mkdir segments
-srcext=wav; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'mkdir -p "segments/$(dirname ${1})"; ffmpeg -i "$1" -hide_banner -y -loglevel panic -f segment -segment_time 6 -c copy "segments/${1%.*}.seg%03d.wav" && echo ""' -- {} | tqdm --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
-
-# deletes source files
-srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" && rm "$1" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
-# doesn't delete source files
-srcext=ogg; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -n -hide_banner -loglevel error -i "$1" -ar 22050 -ac 1 -f segment -segment_time 10 "${1%.*}.seg%03d.22050.wav" | echo "" ' -- {} | tqdm --unit .$srcext --total $(find -type f -name "*.$srcext" | wc -l) > /dev/null
-```
 
 ## Using `sox` to remove silences on multiple files
 
@@ -43,6 +42,11 @@ find -type f -name "*.wav" -not -name "*_unsilenced.wav" |\
 	xargs -I{} -P $(nproc --all) sh -c \
 	'sox "{}" "{}_unsilenced.wav" silence -l 1 0.1 1% -1 2.0 1% && echo""' | \
 	tqdm --total $(find -type f -name "*.wav" -not -name "*_unsilenced.wav"|wc -l)
+
+
+# bonus: move them to a separate directory
+mkdir unsilenced
+mv *_unsilenced.wav unsilenced
 ```
 
 ## Delete corrupted files using `ffprobe`
