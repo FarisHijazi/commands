@@ -70,6 +70,21 @@ sudo chmod +x /etc/systemd/system/barrier.service
 
 [three-point formula](https://stackoverflow.com/questions/10067266/when-to-wrap-quotes-around-a-shell-variable/42104627#42104627)
 
+## Using multiple GPUs for program with with single GPU
+
+Normally we can use `xargs -P 128` for 128 multiprocessing, but we can't dispatch across GPUs.  
+This command `python inference.py` has a `--gpu` option, we can use this to choose the GPU, but it can only use one gpu at a time.
+
+We can take adavantage of `--process-slot-var` argument from `xargs` [see question here](https://unix.stackexchange.com/questions/449224/how-can-i-get-the-index-of-the-xargs-parallel-processor).
+The idea here is to use `$(echo "$index % 4"| bc)` which will take the index and dispatch files equally across GPUs.
+
+Change `"$index % 4"` to however many GPUs you have, and it's usually better to increase `-P 4` to double or 4x the number of GPUs you have.
+
+```sh
+find /data/files -type f -name "*.wav" |xargs --process-slot-var=index -P 4 -I{} sh -c 'python inference.py --input "{}" --gpu $(echo "$index % 4"| bc)'
+```
+
+
 ## parallel download URLs from file
 
 ```bash
