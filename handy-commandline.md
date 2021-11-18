@@ -83,7 +83,11 @@ Change `"$index % 4"` to however many GPUs you have, and it's usually better to 
 ```sh
 find /data/files -type f -name "*.wav" |xargs --process-slot-var=index -P 4 -I{} sh -c 'python inference.py --input "{}" --gpu $(echo "$index % 4"| bc)'
 ```
+## Parallel download `youtube-dl`
 
+```bash
+youtube-dl --get-id "$PLAYLIST_URL" | xargs -I '{}' -P $(nproc --all) youtube-dl 'https://youtube.com/watch?v={}'
+```
 
 ## parallel download URLs from file
 
