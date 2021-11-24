@@ -40,10 +40,20 @@ sh Anaconda3-2020.11-Linux-x86_64.sh -b -p $HOME/anaconda3
 conda update -y -n base -c defaults conda # (optional)
 ```
 
+### Auto activating when `cd`ing into a folder
+
+if you're using bash, modify your `~/.bashrc` file and add the following lines at the bottom after the conda prompt:
+
 ```bash
-# increase inotify limit
-echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+## activate conda environment based on current directory name
+cd () {
+    if builtin cd ${1:+"$@"}; then
+        conda activate $(echo $(basename $(pwd))) 2>/dev/null
+    fi
+}
+conda activate $(echo $(basename $(pwd))) 2>/dev/null
 ```
+
 
 ## Installing cuda
 
@@ -164,22 +174,9 @@ nautilus -q
 nautilus
 ```
 
-```bash
-pip install ddgr
-# use: 
-ddgr -j "tensorflow mirrored strategy multigpu slower than single gpu"
-```
+## Instasll MPS-Youtube
 
-```bash
-# expressvpn
-wget https://www.download-express-apps.net/clients/linux/xv_3.8.0.4-1_amd64.deb -O expressvpn.deb
-sudo apt install ./expressvpn.deb
-
-expressvpn activate
-$ ENTERKEY
-$ n
-expressvpn autoconnect yes  # (optional)
-```
+To listen to music from the command line
 
 YouTube API key for `mpsyoutube`
 
@@ -198,6 +195,27 @@ set search_music false
 https://github.com/mps-youtube/mps-youtube/issues/551#issuecomment-266250991
 ```
 
+```bash
+pip install ddgr
+# use: 
+ddgr -j "tensorflow mirrored strategy multigpu slower than single gpu"
+```
+
+```bash
+# expressvpn
+wget https://www.download-express-apps.net/clients/linux/xv_3.8.0.4-1_amd64.deb -O expressvpn.deb
+sudo apt install ./expressvpn.deb
+
+expressvpn activate
+$ ENTERKEY
+$ n
+expressvpn autoconnect yes  # (optional)
+```
+
+```bash
+# increase inotify limit
+echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+```
 
 ## latex stuff
 
