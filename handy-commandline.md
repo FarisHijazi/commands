@@ -92,16 +92,22 @@ youtube-dl --get-id "$PLAYLIST_URL" | xargs -I '{}' -P $(nproc --all) youtube-dl
 ## parallel download URLs from file
 
 ```bash
-## parallel download URLs from file
+# will download files to current directory, if you don't want that, you should cd to the the desired downloads folder
+# use something like the following before running the rest:
+mkdir downloads; cd downloads # create downloads directory if needed
 
-mkdir downloads
-cd downloads
-cat ../urls.txt|xargs -n 1 -I{} -P $(nproc --all) sh -c 'wget -nc -qq "{}" && echo ""' |tqdm --total $(cat ../urls.txt|wc -l) --unit file >/dev/null
+## downloading
+
+# specify file with urls
+urlsfile=../urls.txt
+cat $urlsfile|xargs -n 1 -I{} -P $(nproc --all) sh -c 'wget -nc -qq "{}" && echo ""' |tqdm --total $(cat $urlsfile|wc -l) --unit file >/dev/null
 rename 's/%0D$//' *
+# rename all images to gifs just incase
 rename 's/$/.gif/'  $(find -not -name '*.gif' -not -name '*.jpg' -not -name '*.png' -not -name '*.gifv')
+## WARNING: the bellow is potentially destructive, renames files, and will delete empty files, use with caution
 find -size 1 -delete
 find -size 0 -delete
-ls * |xargs -I{} -P $(nproc --all) sh -c 'identify "{}"> /dev/null || rm "{}"'
+# ls * |xargs -I{} -P $(nproc --all) sh -c 'identify "{}"> /dev/null || rm "{}"' 
 ```
 
 ## installing and using nvidia Docker
