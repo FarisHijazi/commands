@@ -187,6 +187,9 @@ pip install -U youtube-dl
 pip install git+https://github.com/mps-youtube/mps-youtube.git
 rm ~/.config/mps-youtube/cache_py_*
 
+# quick fix for "KeyError: 'dislike_count' in pafy"
+pip uninstall -y pafy; pip install git+https://github.com/Cupcakus/pafy
+
 mpsyt set api_key APIKEYHERE
 set search_music false
 /Mick Gordon - The DOOM Hunter DOOM Eternal - Extended Gamerip, 1
