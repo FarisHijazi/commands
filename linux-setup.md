@@ -158,20 +158,20 @@ sudo apt install -y ckb-next
 wget "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz"
 ```
 
-Install integrated terminal inside file explorer
+### Install integrated terminal inside file explorer
+
+see official docs here: https://github.com/flozz/nautilus-terminal
 
 ```bash
-## for ubuntu 20 and similar
+#Ubuntu 20.04 and later
+#To install Nautilus Terminal on Ubuntu >= 20.04, first install dependencies:
 conda deactivate
-sudo apt install -y nautilus-terminal
-sudo apt install -y python3-pip
-pip3 install nautilus-terminal
-sudo apt install -y python3-nautilus python3-psutil
-python3 -m pip install --user --upgrade nautilus_terminal
-sudo apt install -y dconf-editor python-gi python3-gi pkg-config libcairo2-dev gcc python3-dev libgirepository1.0-dev
-pip install gobject PyGObject
+sudo apt install python3-nautilus python3-psutil python3-pip libglib2.0-bin dconf-editor
+#Then install Nautilus Terminal:
+sudo pip3 install nautilus-terminal
+sudo nautilus-terminal --install-system
+#Finally close current Nautilus instance to apply the changes:
 nautilus -q
-nautilus
 ```
 
 ## Instasll MPS-Youtube
