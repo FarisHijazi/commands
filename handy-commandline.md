@@ -23,8 +23,24 @@ find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {
 find ./filelists/ -type f -name '*.txt*' -exec sed -i 's/string/replacement/g' {} \;
 
 ## rename files
-## in this example, remove "22050" from the name
-find -name '*.wav' -exec rename 's/22050//' {} \;
+# here we are replacing the strings: "22k." with ".22050."
+find -name '*.wav' -exec rename 's/22k./.22050./' {} \;
+
+## rename files (parallel)
+
+# this will run on all files, WARNING: but there's a danger to run on binary files
+# use this version when you know the extension of the files
+find -type f |xargs -r -Ix -P $(nproc --all) sh -c "sed 's/22k./.22050./' x"
+
+## run `sed` on multiple files in parallel
+# the second line will check that only nonbinary files are passed to the next pipe
+# it's much slower though, so only use it when you need to run on all files
+# it's better to specify something like "*.txt" if you can and avoid this
+find -type f | \
+  xargs -r -I{} -P $(nproc --all) sh -c 'grep -Il . "{}"' | \
+  xargs -r -I{} -P $(nproc --all) sh -c "sed -i 's/22k./.22050./' \"{}\" && echo \"{}\" " |\
+  tqdm --unit file --total $(find -type f | wc -l) > /dev/null
+
 ```
 
 ## Hashing a directory
