@@ -15,6 +15,22 @@ ps aux | grep jupyter | awk '{print $2}' | xargs sudo kill -9
 
 ## File editing
 
+Move multiple files but keep directory structure
+
+```sh
+destination=pathto/targetdir
+find . -name '*.wav' -type f -print0 | xargs -0 -P $(nproc --all) -I {} sh -c '
+    file="{}"
+    destination="'"$destination"'"
+    mkdir -p "$destination/${file%/*}"
+    mv "$file" "$destination/$file"'
+
+## see stackoverflow answer using rsync: https://unix.stackexchange.com/a/230536/368371
+
+```
+
+Miscellaneous batch file editing
+
 ```sh
 ## delete every other file, but save the first one
 find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {}
