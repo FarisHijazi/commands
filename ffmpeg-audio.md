@@ -25,6 +25,16 @@ find . -not -name "*.22050.wav" -name "*.wav" -type f -delete
 
 ```
 
+For renaming after finishing resampling, checkout the [handy-commands](handy-commandline.md#file-editing) files
+
+## read attribute from files using ffprobe
+
+in this case it's `sample_rate`. This uses `jq` to parse json output
+
+```
+find -name '*.wav' | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -loglevel panic  -show_streams -of json "{}" | jq ".streams[0].sample_rate"'
+```
+
 ## read durations of `.wav` files (be sure to change `srcext` to the source extension)
 
 ```bash
