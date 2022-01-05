@@ -220,6 +220,18 @@ expressvpn autoconnect yes  # (optional)
 echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
 ```
 
+## Fixes
+
+### Fix for `SyntaxError: multiple statements found while compiling a single statement`
+
+This error happens to me when pasting python code into the command line
+
+```bash
+# https://stackoverflow.com/a/67757736/7771202
+echo "set enable-bracketed-paste off" >> ~/.inputrc
+
+```
+
 ## latex stuff
 
 [https://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/](https://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/)
