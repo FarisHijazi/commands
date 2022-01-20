@@ -27,6 +27,12 @@ find . -not -name "*.22050.wav" -name "*.wav" -type f -delete
 
 For renaming after finishing resampling, checkout the [handy-commands](handy-commandline.md#file-editing) files
 
+### Converting videos to GIFs
+
+```sh
+srcext=mp4; find . -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffmpeg -hide_banner -loglevel fatal -y -i "{}" -vf "fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "{}.gif" && echo ""'|tqdm --total $(find -name "*.mp4"|wc -l) >/dev/null
+```
+
 ## read attribute from files using ffprobe
 
 in this case it's `sample_rate`. This uses `jq` to parse json output
