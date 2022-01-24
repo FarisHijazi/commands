@@ -40,7 +40,7 @@ find ./filelists/ -type f -name '*.txt*' -exec sed -i 's/string/replacement/g' {
 
 ## rename files
 # here we are replacing the strings: "22k." with ".22050."
-find -name '*.wav' -exec rename 's/22k./.22050./' {} \;
+find -name '*.wav' |xargs -I{} -P 128 sh -c 'rename 's/22k./.22050./' "{}" '
 
 ## rename files (parallel)
 
