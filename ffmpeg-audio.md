@@ -45,7 +45,7 @@ find -name '*.wav' | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -loglevel panic
 
 ```bash
 # **read durations of .wav files** (be sure to change srcext to the source extension)
-srcext=wav; find -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -i "$1" -show_entries format=duration -v quiet -of csv="p=0" ' _ {} \; | (tqdm --total $(find -name "*.$srcext" | wc -l) ) | (awk '{ sum += $1 } END { print sum }')
+srcext=wav; find -type f -name "*.$srcext" -print | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -i "$1" -show_entries format=duration -v quiet -of csv="p=0" ' _ {} \; | (tqdm --total $(find -name "*.$srcext" | wc -l) ) | (awk '{ sum += $1 } END { print sum/60 " minutes" }')
 ```
 
 
