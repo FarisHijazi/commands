@@ -32,6 +32,9 @@ find . -name '*.wav' -type f -print0 | xargs -0 -P $(nproc --all) -I {} sh -c '
 Miscellaneous batch file editing
 
 ```sh
+## rename fileextension based on detected content
+find -print0 |xargs -0 -r -I{} sh -c 'mv "{}" "${1%.*}.$(file "{}"  --mime-type -b |cut -d/ -f2)"' -- {}
+
 ## delete every other file, but save the first one
 find . -name "filenames...*" |head -n -1 |awk "NR%2==1 {print}" |xargs -I{} rm {}
 
