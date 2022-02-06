@@ -40,6 +40,25 @@ sh Anaconda3-2020.11-Linux-x86_64.sh -b -p $HOME/anaconda3
 conda update -y -n base -c defaults conda # (optional)
 ```
 
+### getting the average in the command line using a pipe `|`
+
+```sh
+python -c 'from sys import argv; argv=argv[1:]; print(sum(list(map(float, argv)))/len(argv))'
+```
+
+you can create an alias for this in `~/.bash_aliases`
+
+```sh
+alias avg="xargs python -c 'from sys import argv; argv=argv[1:]; print(sum(list(map(float, argv)))/len(argv))'"
+```
+
+Usage:
+
+```sh
+$ seq 10|avg
+5.5
+```
+
 ### Auto activating when `cd`ing into a folder
 
 if you're using bash, modify your `~/.bashrc` file and add the following lines at the bottom after the conda prompt:
