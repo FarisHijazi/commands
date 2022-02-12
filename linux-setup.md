@@ -27,6 +27,12 @@ git clone https://github.com/FarisHijazi/dotfiles && mv dotfiles/.git . && mv do
 git git reset --hard
 ```
 
+## [fzf Fuzzy finder](https://github.com/junegunn/fzf)
+
+```
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf/install
+```
+
 ## Conda
 
 For anaconda, instead of going through the annoying webpage installer, just run the following command:
