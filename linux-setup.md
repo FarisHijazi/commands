@@ -1,13 +1,5 @@
 # Linux setup
 
-Installing GNU parallel ([see stackoverflow answer here](https://stackoverflow.com/a/28361402/7771202))
-
-```bash
-sudo apt install -y parallel
-```
-
-## Established
-
 Setup, mostly installation stuff
 
 ```bash
@@ -199,7 +191,7 @@ sudo nautilus-terminal --install-system
 nautilus -q
 ```
 
-## Instasll MPS-Youtube
+## Install MPS-Youtube
 
 To listen to music from the command line
 
