@@ -68,9 +68,9 @@ mv *_unsilenced.wav unsilenced
 ## Delete corrupted files using `ffprobe`
 
 ```bash
-srcext=wav; 
-find -type f -name "*.$srcext" -size  0 -print -delete
-(find -type f -name "*.$srcext" -print  | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -loglevel error -hide_banner "$1"; echo "$1,$?" ' -- {}) | xargs -I{} echo {} | (tqdm --total $(find -name "*.$srcext" | wc -l)) | grep ,1 | awk -F',' '{print $1}' | xargs -I{} rm "{}"
+srcext=wav; \
+  find -type f -name "*.$srcext" -size  0 -print -delete; \
+  (find -type f -name "*.$srcext" -print  | xargs -P $(nproc --all) -I{} sh -c 'ffprobe -loglevel error -hide_banner "$1"; echo "$1,$?" ' -- {}) | xargs -I{} echo {} | (tqdm --total $(find -name "*.$srcext" | wc -l)) | grep ,1 | awk -F',' '{print $1}' | xargs -I{} rm "{}"
 ```
 
 ## For resetting timestamps of mp4 videos:
