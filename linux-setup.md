@@ -16,7 +16,8 @@ gem install colorls
 git config --global credential.helper store
 git clone https://github.com/FarisHijazi/dotfiles && mv dotfiles/.git . && mv dotfiles/.gitignore . && rm -rf dotfiles
 # to apply changes to latest branch:
-git git reset --hard
+git stash -m "original state before downloading dotfiles"
+# or: git git reset --hard
 ```
 
 ## [fzf Fuzzy finder](https://github.com/junegunn/fzf)
