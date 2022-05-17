@@ -34,7 +34,7 @@ wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
 sh Anaconda3-2020.11-Linux-x86_64.sh -b -p $HOME/anaconda3
 ~/anaconda3/bin/conda config --set auto_activate_base true # (optional)
 ~/anaconda3/bin/conda init # (optional)
-
+source ~/.bashrc
 conda update -y -n base -c defaults conda # (optional)
 ```
 
