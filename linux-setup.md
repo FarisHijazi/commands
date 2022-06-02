@@ -66,10 +66,10 @@ if you're using bash, modify your `~/.bashrc` file and add the following lines a
 ## activate conda environment based on current directory name
 cd () {
     if builtin cd ${1:+"$@"}; then
-        conda activate $(echo $(basename $(pwd))) 2>/dev/null
+        conda activate $(echo $(basename "$(pwd)")) 2>/dev/null
     fi
 }
-conda activate $(echo $(basename $(pwd))) 2>/dev/null
+conda activate $(echo $(basename "$(pwd)")) 2>/dev/null
 ```
 
 
