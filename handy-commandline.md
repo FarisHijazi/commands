@@ -15,6 +15,15 @@ ps aux | grep jupyter | awk '{print $2}' | xargs sudo kill -9
 
 ## File editing
 
+Linux: how to move each file into a correspondingly named folder
+
+> https://stackoverflow.com/a/11962189/7771202
+
+```sh
+find . -name "*.abc" -exec sh -c 'mkdir "${1%.*}" ; mv "$1" "${1%.*}" ' _ {} \;
+```
+
+
 Move multiple files but keep directory structure
 
 ```sh
