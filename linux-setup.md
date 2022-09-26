@@ -96,45 +96,6 @@ Update
 sudo apt-get install docker.io nvidia-container-toolkit
 ```
 
-```bash
-# this is all taken from nnabla.org/install
-apt-get update
-apt-get install -y --no-install-recommends \
-	gnupg2 \
-	curl \
-	ca-certificates
-curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add -
-echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list
-if [ ! -z 1 ]; then echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list; fi
-apt-get update
-apt-get install -y --no-install-recommends \
-	cuda-cudart-11-0=11.0.221-1 \
-	cuda-compat-11-0
-ln -s cuda-11.0 /usr/local/cuda
-echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf
-echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-apt-get update
-apt-get install -y --no-install-recommends \
-	cuda-libraries-11-0=11.0.3-1 \
-	libnpp-11-0=11.1.0.245-1 \
-	cuda-nvtx-11-0=11.0.167-1 \
-	libcusparse-11-0=11.1.1.245-1 \
-	libcublas-11-0=11.2.0.252-1 \
-	libnccl2=2.10.3-1+cuda11.0
-apt-mark hold libcublas-11-0 libnccl2
-apt-get update
-apt-get install -y --no-install-recommends \
-	"libcudnn8=8.0.5.39-1+cuda11.0"
-apt-mark hold "libcudnn8"
-echo "PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}" >> /etc/environment
-echo "LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64">> /etc/enviromnent
-
-# If you cannot use nvidia cuda repository or cuda-drivers does not worl well (e.g Ubuntu18.04 with CUDA9.2),
-# You can use ppa to install newest nvidia-driver
-(sudo apt install -y --no-install-recommends cuda-drivers) || (sudo add-apt-repository -y ppa:graphics-drivers/ppa && sudo apt install -y nvidia-driver-430)
-
-```
-
 ## Desktop and Window manager
 
 ```bash
