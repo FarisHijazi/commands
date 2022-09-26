@@ -13,6 +13,16 @@ pgrep -x jupyter|xargs kill -9
 ps aux | grep jupyter | awk '{print $2}' | xargs sudo kill -9
 ```
 
+## Mounting Windows network drive to WSL
+
+in this case, target network drive is `Z:`
+
+```sh
+sudo apt install cifs-utils
+sudo mkdir /mnt/z
+sudo mount -t drvfs Z: /mnt/z
+```
+
 ## File editing
 
 Linux: how to move each file into a correspondingly named folder
