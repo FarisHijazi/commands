@@ -1,5 +1,9 @@
 # Linux setup
 
+for anything that needs `sudo`, be sure to run `sudo --validate` before pasting the commands so that they don't get interrupted by `sudo` asking for your password
+
+---
+
 Setup, mostly installation stuff
 
 ```bash
@@ -145,7 +149,7 @@ see official docs here: https://github.com/flozz/nautilus-terminal
 #Ubuntu 20.04 and later
 #To install Nautilus Terminal on Ubuntu >= 20.04, first install dependencies:
 conda deactivate
-sudo apt install python3-nautilus python3-psutil python3-pip libglib2.0-bin dconf-editor
+sudo apt install -y python3-nautilus python3-psutil python3-pip libglib2.0-bin dconf-editor
 #Then install Nautilus Terminal:
 sudo pip3 install nautilus-terminal
 sudo nautilus-terminal --install-system
