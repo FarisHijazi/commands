@@ -48,7 +48,22 @@ find . -name '*.wav' -type f -print0 | xargs -0 -P $(nproc --all) -I {} sh -c '
 
 ```
 
-Miscellaneous batch file editing
+## `md5sum -c` in parallel
+
+the .md5sum file will have lines that look something like this: `4119001fb6b8dc665f85167db429f9ac  checkpoint_last-model_part-0-shard0.pt`
+
+```sh
+# this version will just check and print pass or fail
+md5sumfile="opt175b_md5sum_shards.md5sum"
+cat "${md5sumfile}" | xargs -P $(nproc --all) -I{} sh -c 'echo {} | md5sum -c -'
+
+
+## WARNING: the bellow version will DELETE the files that fail the checksum
+md5sumfile="opt175b_md5sum_shards.md5sum"
+cat "${md5sumfile}" | xargs -P $(nproc --all) -I{} sh -c 'echo {} | md5sum -c - || echo "{}"|xargs rm' | tqdm --total $(cat "${md5sumfile}"|wc -l )
+```
+
+## Miscellaneous batch file editing
 
 ```sh
 ## rename fileextension based on detected content
