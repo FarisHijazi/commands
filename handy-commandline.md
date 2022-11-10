@@ -25,7 +25,16 @@ sudo mount -t drvfs Z: /mnt/z
 
 ## File editing
 
-Linux: how to move each file into a correspondingly named folder
+**VSCode nested repositories**
+
+the following command will create a gitsubmodules directory from all the nested git repos
+
+```sh
+find -mindepth 2 -name .git -type d | xargs -I {} sh -c 'echo -e "[submodule \"$(basename $(dirname \"{}\"))\"]\n    path = $(dirname "{}")\n    url = https://dummy.url/for_vscode"' > .gitmodules
+```
+
+
+**Linux: how to move each file into a correspondingly named folder**
 
 > https://stackoverflow.com/a/11962189/7771202
 
@@ -34,7 +43,7 @@ find . -name "*.abc" -exec sh -c 'mkdir "${1%.*}" ; mv "$1" "${1%.*}" ' _ {} \;
 ```
 
 
-Move multiple files but keep directory structure
+**Move multiple files but keep directory structure**
 
 ```sh
 destination=pathto/targetdir
