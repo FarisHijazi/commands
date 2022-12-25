@@ -218,6 +218,55 @@ echo "set enable-bracketed-paste off" >> ~/.inputrc
 
 ```
 
+## Debugging `apt` issues
+
+[This answer](https://askubuntu.com/a/1385445/1048079) soles 404 URLs when using apt like bellow:
+
+```
+E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/e/expat/libexpat1-dev_2.2.9-1ubuntu0.4_amd64.deb  404  Not Found [IP: 185.125.190.36 80]
+E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/t/tiff/libtiffxx5_4.1.0+git191117-2ubuntu0.20.04.5_amd64.deb  404  Not Found [IP: 185.125.190.36 80]
+E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/t/tiff/libtiff-dev_4.1.0+git191117-2ubuntu0.20.04.5_amd64.deb  404  Not Found [IP: 185.125.190.36 80]
+E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/libx/libxml2/libxml2-dev_2.9.10+dfsg-5ubuntu0.20.04.4_amd64.deb  404  Not Found [IP: 185.125.190.36 80]
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+```
+
+```sh
+# First, restore the default repositories using these commands:
+
+mkdir ~/solution
+cd ~/solution/
+
+cat << EOF > ~/solution/sources.list
+deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+
+deb http://archive.canonical.com/ubuntu focal partner
+deb-src http://archive.canonical.com/ubuntu focal partner
+EOF
+
+sudo sed -i "s/focal/$(lsb_release -c -s)/" ~/answer/sources.list
+sudo rm /etc/apt/sources.list
+sudo cp ~/solution/sources.list /etc/apt/sources.list
+
+# Remove all the PPAs in your system:
+sudo mv /etc/apt/sources.list.d/* ~/solution
+
+# Update the repositories:
+sudo apt update
+```
+
+
+
+
 ## latex stuff
 
 [https://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/](https://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/)
