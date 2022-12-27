@@ -46,6 +46,15 @@ source ~/.bashrc
 conda update -y -n base -c defaults conda # (optional)
 ```
 
+fix bluetooth, from [this answer](https://askubuntu.com/a/1123633)
+
+```sh
+sudo apt-get install 'bluez*' blueman
+modprobe btusb
+sudo systemctl restart bluetooth
+
+```
+
 ### getting the average in the command line using a pipe `|`
 
 ```sh
