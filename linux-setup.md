@@ -38,8 +38,8 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf
 For anaconda, instead of going through the annoying webpage installer, just run the following command:
 
 ```bash
-wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
-sh Anaconda3-2022.05-Linux-x86_64.sh -b -p $HOME/anaconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/anaconda3
 ~/anaconda3/bin/conda config --set auto_activate_base true # (optional)
 ~/anaconda3/bin/conda init # (optional)
 source ~/.bashrc
