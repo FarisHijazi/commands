@@ -162,6 +162,7 @@ see official docs here: https://github.com/flozz/nautilus-terminal
 #To install Nautilus Terminal on Ubuntu >= 20.04, first install dependencies:
 conda deactivate
 sudo apt install -y python3-nautilus python3-psutil python3-pip libglib2.0-bin dconf-editor
+sudo pip3 install psutil
 #Then install Nautilus Terminal:
 sudo pip3 install nautilus-terminal
 sudo nautilus-terminal --install-system
