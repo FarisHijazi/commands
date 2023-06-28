@@ -1,6 +1,13 @@
 #!/bin/env/python3
 """
 A script for testing if GPU and CUDA are working using PyTorch.
+
+run it without downloading by running:
+
+```sh
+$ curl https://raw.githubusercontent.com/FarisHijazi/commands/master/scripts/test_gpu.py | python
+```
+
 Inspired by https://github.com/pesser/stable-diffusion/blob/main/scripts/test_gpu.py
 """
 
@@ -10,7 +17,10 @@ parser = argparse.ArgumentParser(__doc__)
 parser.add_argument('--install', '-i', action='store_true')
 args = parser.parse_args()
 if args.install:
-    os.system('conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia -y ')
+    os.system('pip uninstall -y pytorch-lightning pytorch-metric-learning torch torch-audiomentations torch-pitch-shift torchaudio torchmetrics torchvision')
+    os.system('conda uninstall -y pytorch-cuda pytorch-mutex torch torchaudio torchvision')
+    os.system("conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia -y")
+
 
 import socket
 try:
