@@ -20,6 +20,7 @@ sudo wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -O
 ```
 
 ```bash
+cd $HOME
 git config --global credential.helper store
 git clone https://github.com/FarisHijazi/dotfiles && mv dotfiles/.git . && mv dotfiles/.gitignore . && rm -rf dotfiles
 # to apply changes to latest branch:
