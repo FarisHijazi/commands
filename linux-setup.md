@@ -170,6 +170,16 @@ sudo nautilus-terminal --install-system
 nautilus -q
 ```
 
+## To install POP!_OS's tiling window manager on Ubuntu, run the following:
+
+```sh
+cd /opt/
+sudo apt install node-typescript make git -y 
+git clone https://github.com/pop-os/shell.git
+cd shell
+make local-install
+```
+
 ## Install MPS-Youtube
 
 To listen to music from the command line
