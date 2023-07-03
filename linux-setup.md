@@ -19,6 +19,11 @@ sudo wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -O
 # then make sure to add alias: `alias bfg="java -jar /opt/bfg-1.14.0.jar"`
 ```
 
+install flameshot and setup the default shortcut like [here](https://github.com/flameshot-org/flameshot/#on-ubuntu-tested-on-1804-2004-2204)
+```
+sudo apt install flameshot -y
+```
+
 ```bash
 cd $HOME
 git config --global credential.helper store
