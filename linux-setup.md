@@ -60,8 +60,8 @@ For Miniconda3, instead of going through the annoying webpage installer, just ru
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 sh Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
-~/anaconda3/bin/conda config --set auto_activate_base true # (optional)
-~/anaconda3/bin/conda init # (optional)
+~/miniconda3/bin/conda config --set auto_activate_base true # (optional)
+~/miniconda3/bin/conda init # (optional)
 source ~/.bashrc
 conda update -y -n base -c defaults conda # (optional)
 ```
