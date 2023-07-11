@@ -39,6 +39,20 @@ git stash -m "original state before downloading dotfiles"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf/install
 ```
 
+## Ubuntu environment stuff
+
+enable type-ahead-find in nautilus (jump to the file when you type the first letter just like windows):
+
+```sh
+gsettings set org.gnome.nautilus.preferences enable-interactive-search true
+```
+
+Run .sh file when double click
+
+```sh
+gsettings set org.gnome.nautilus.preferences executable-text-activation 'launch'
+```
+
 ## Conda
 
 For Miniconda3, instead of going through the annoying webpage installer, just run the following command:
