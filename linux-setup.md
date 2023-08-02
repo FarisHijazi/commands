@@ -132,6 +132,12 @@ Update
 sudo apt-get install docker.io nvidia-container-toolkit
 ```
 
+#### some help with installin nvidia docker
+
+- https://github.com/NVIDIA/nvidia-docker/issues/1243#issuecomment-694981577
+- https://github.com/NVIDIA/nvidia-docker/issues/1238#issuecomment-734918630
+
+
 ## Desktop and Window manager
 
 ```bash
