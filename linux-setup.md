@@ -53,6 +53,28 @@ Run .sh file when double click
 gsettings set org.gnome.nautilus.preferences executable-text-activation 'launch'
 ```
 
+### Adding script to startup
+
+```bash
+sudo bash -c 'cat > /etc/systemd/system/myScript.service' << EOF
+[Unit]
+Description=My Script
+
+[Service]
+ExecStart=/bin/bash /path/to/your/script.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Make systemd aware of your new
+# Enable the service to run at startup with
+sudo systemctl enable myScript.service. # service with sudo systemctl daemon-reload.
+sudo systemctl start myScript.service. # Start the service now with
+sudo systemctl status myScript.service. # You can check the status of your service anytime using
+```
+
+
 ## Conda
 
 For Miniconda3, instead of going through the annoying webpage installer, just run the following command:
