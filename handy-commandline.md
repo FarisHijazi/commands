@@ -21,6 +21,8 @@ in this case, target network drive is `Z:`
 sudo apt install cifs-utils
 sudo mkdir /mnt/z
 sudo mount -t drvfs Z: /mnt/z
+# or more directly
+sudo mount -t drvfs '\\server\Shared Folder\Public' /mnt/z
 ```
 
 ## File editing
