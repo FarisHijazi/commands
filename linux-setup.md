@@ -74,6 +74,20 @@ sudo systemctl start myScript.service. # Start the service now with
 sudo systemctl status myScript.service. # You can check the status of your service anytime using
 ```
 
+## Node, npm and nvm
+
+installation
+
+```sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+
+source ~/.bashrc
+nvm --version
+nvm ls-remote
+nvm install v20.5.1
+sudo ln -s $HOME/.nvm/versions/node/v20.5.1/bin/npm /usr/local/bin/npm
+sudo ln -s $HOME/.nvm/versions/node/v20.5.1/bin/node /usr/local/bin/node
+```
 
 ## Conda
 
