@@ -33,6 +33,25 @@ git stash -m "original state before downloading dotfiles"
 # or: git git reset --hard
 ```
 
+## Setting up shared `~/.cache` across users
+
+Benefit: prevent downloading the same file multiple times for each user.
+This is potentially dangerous, but I'm gonna go for it anyway.
+
+The bellow code will have a common huggingface cache directory across all users, this will make models and datasets shared and only needed to be downloaded once per machine
+
+```sh
+sudo mkdir -p /shared/.cache/huggingface/
+sudo chown -R $USER /shared/.cache/huggingface/
+mkdir -p $HOME/.cache/huggingface/
+
+sudo apt install rclone -y
+# repeat the bellow for each user <CHANGE THE USER>
+USERNAME=fhijazi
+sudo rclone copy /home/$USERNAME/.cache/huggingface/* /shared/.cache/huggingface/ -L --update --verbose
+ln -s /home/$USERNAME/.cache/huggingface/ /shared/.cache/huggingface/
+```
+
 ## [fzf Fuzzy finder](https://github.com/junegunn/fzf)
 
 ```
