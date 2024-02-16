@@ -58,6 +58,15 @@ ln -s /home/$USERNAME/.cache/huggingface/ /shared/.cache/huggingface/
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf/install
 ```
 
+## [Cloudflare WARP on linux](https://developers.cloudflare.com/warp-client/get-started/linux/)
+
+```sh
+sudo apt install cloudflare-warp -y
+warp-cli register
+warp-cli connect
+curl https://www.cloudflare.com/cdn-cgi/trace/ # and verify that warp=on
+```
+
 ## Ubuntu environment stuff
 
 enable type-ahead-find in nautilus (jump to the file when you type the first letter just like windows):
