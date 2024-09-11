@@ -194,6 +194,14 @@ Update
 
 ```bash
 sudo apt-get install docker.io nvidia-container-toolkit
+
+
+# Create a group named docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# docker-compose permission
+sudo chmod 666 /var/run/docker.sock
+
 ```
 
 #### some help with installin nvidia docker
