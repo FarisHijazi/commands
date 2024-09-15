@@ -7,6 +7,7 @@ for anything that needs `sudo`, be sure to run `sudo --validate` before pasting 
 Setup, mostly installation stuff
 
 ```bash
+sudo add-apt-repository multiverse universe restricted main -y
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq
