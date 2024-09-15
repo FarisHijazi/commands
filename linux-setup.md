@@ -69,7 +69,7 @@ echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] ht
 
 # Install
 sudo apt-get update && sudo apt-get install cloudflare-warp -y
-warp-cli register
+warp-cli registration new
 warp-cli connect
 curl https://www.cloudflare.com/cdn-cgi/trace/ # and verify that warp=on
 ```
