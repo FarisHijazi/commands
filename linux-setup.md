@@ -61,7 +61,13 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf
 ## [Cloudflare WARP on linux](https://developers.cloudflare.com/warp-client/get-started/linux/)
 
 ```sh
-sudo apt install cloudflare-warp -y
+# Add cloudflare gpg key
+curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+# Add this repo to your apt repositories
+echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+
+# Install
+sudo apt-get update && sudo apt-get install cloudflare-warp -y
 warp-cli register
 warp-cli connect
 curl https://www.cloudflare.com/cdn-cgi/trace/ # and verify that warp=on
