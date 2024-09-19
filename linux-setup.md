@@ -129,10 +129,12 @@ sudo ln -s $HOME/.nvm/versions/node/v20.5.1/bin/node /usr/local/bin/node
 For Miniconda3, instead of going through the annoying webpage installer, just run the following command:
 
 ```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+wget --no-clobber https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+rm -rf $HOME/miniconda3
 sh Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
-~/miniconda3/bin/conda config --set auto_activate_base true # (optional)
-~/miniconda3/bin/conda init # (optional)
+$HOME/miniconda3/bin/conda config --set auto_activate_base true # (optional)
+$HOME/miniconda3/bin/conda init # (optional)
 source ~/.bashrc
 conda update -y -n base -c defaults conda # (optional)
 ```
