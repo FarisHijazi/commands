@@ -13,7 +13,7 @@ sudo add-apt-repository restricted -y
 sudo add-apt-repository main -y
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y curl google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq
+sudo apt install -y curl google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq net-tools htop nvtop iotop gpustat
 sudo snap install astral-uv --classic # or # curl -LsSf https://astral.sh/uv/install.sh | sh
 sudo snap install code --classic
 sudo snap install ruby --classic
@@ -30,6 +30,9 @@ sudo apt install flameshot -y
 ```
 
 ```bash
+git config --global user.name "Faris Hijazi"
+git config --global user.email theefaris@gmail.com
+
 cd $HOME
 git config --global credential.helper store
 git clone https://github.com/FarisHijazi/dotfiles && mv dotfiles/.git . && mv dotfiles/.gitignore . && rm -rf dotfiles
@@ -38,29 +41,30 @@ git stash -m "original state before downloading dotfiles"
 # or: git git reset --hard
 ```
 
-## Setting up shared `~/.cache` across users
-
-Benefit: prevent downloading the same file multiple times for each user.
-This is potentially dangerous, but I'm gonna go for it anyway.
-
-The bellow code will have a common huggingface cache directory across all users, this will make models and datasets shared and only needed to be downloaded once per machine
+## sudo settings
 
 ```sh
-sudo mkdir -p /shared/.cache/huggingface/
-sudo chown -R $USER /shared/.cache/huggingface/
-mkdir -p $HOME/.cache/huggingface/
-
-sudo apt install rclone -y
-# repeat the bellow for each user <CHANGE THE USER>
-USERNAME=fhijazi
-sudo rclone copy /home/$USERNAME/.cache/huggingface/* /shared/.cache/huggingface/ -L --update --verbose
-ln -s /home/$USERNAME/.cache/huggingface/ /shared/.cache/huggingface/
+# Edit the /etc/sudoers file by typing the visudo command in the terminal window.
+sudo visudo
+Append the following entry so you can run all commands without a password.
+echo "$USER ALL = (ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+Save and exit.
 ```
 
 ## [fzf Fuzzy finder](https://github.com/junegunn/fzf)
 
 ```
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes y | ~/.fzf/install
+```
+
+## Tailscale
+
+```
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+
+# You're connected! You can find your Tailscale IPv4 address by running:
+tailscale ip -4
 ```
 
 ## [Cloudflare WARP on linux](https://developers.cloudflare.com/warp-client/get-started/linux/)
@@ -76,41 +80,6 @@ sudo apt-get update && sudo apt-get install cloudflare-warp -y
 yes | warp-cli registration new
 warp-cli connect
 curl https://www.cloudflare.com/cdn-cgi/trace/ # and verify that warp=on
-```
-
-## Ubuntu environment stuff
-
-enable type-ahead-find in nautilus (jump to the file when you type the first letter just like windows):
-
-```sh
-gsettings set org.gnome.nautilus.preferences enable-interactive-search true
-```
-
-Run .sh file when double click
-
-```sh
-gsettings set org.gnome.nautilus.preferences executable-text-activation 'launch'
-```
-
-### Adding script to startup
-
-```bash
-sudo bash -c 'cat > /etc/systemd/system/myScript.service' << EOF
-[Unit]
-Description=My Script
-
-[Service]
-ExecStart=/bin/bash /path/to/your/script.sh
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# Make systemd aware of your new
-# Enable the service to run at startup with
-sudo systemctl enable myScript.service. # service with sudo systemctl daemon-reload.
-sudo systemctl start myScript.service. # Start the service now with
-sudo systemctl status myScript.service. # You can check the status of your service anytime using
 ```
 
 ## Node, npm and nvm
@@ -143,34 +112,6 @@ source ~/.bashrc
 conda update -y -n base -c defaults conda # (optional)
 ```
 
-fix bluetooth, from [this answer](https://askubuntu.com/a/1123633)
-
-```sh
-sudo apt-get install 'bluez*' blueman
-modprobe btusb
-sudo systemctl restart bluetooth
-
-```
-
-### getting the average in the command line using a pipe `|`
-
-```sh
-python -c 'from sys import argv; argv=argv[1:]; print(sum(list(map(float, argv)))/len(argv))'
-```
-
-you can create an alias for this in `~/.bash_aliases`
-
-```sh
-alias avg="xargs python -c 'from sys import argv; argv=argv[1:]; print(sum(list(map(float, argv)))/len(argv))'"
-```
-
-Usage:
-
-```sh
-$ seq 10|avg
-5.5
-```
-
 ### Auto activating when `cd`ing into a folder
 
 if you're using bash, modify your `~/.bashrc` file and add the following lines at the bottom after the conda prompt:
@@ -185,6 +126,17 @@ cd () {
 conda activate $(echo $(basename "$(pwd)")) 2>/dev/null
 ```
 
+```bash
+sudo apt-get install -y docker.io nvidia-container-toolkit docker-compose nvidia-docker2
+
+
+# Create a group named docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# docker-compose permission
+sudo chmod 666 /var/run/docker.sock
+
+```
 
 ## Installing cuda
 
@@ -196,24 +148,50 @@ find neat script at [nnabla.org/install](https://nnabla.org/install/)
 Install
 
 ```bash
-LAMBDA_REPO=$(mktemp) && \
-wget -O${LAMBDA_REPO} https://lambdalabs.com/static/misc/lambda-stack-repo.deb && \
-sudo dpkg -i ${LAMBDA_REPO} && rm -f ${LAMBDA_REPO} && \
-sudo apt-get update && sudo apt-get install -y lambda-stack-cuda
+wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | sh -
 sudo reboot
 ```
 
-Update
+## Ubuntu environment stuff
 
-```bash
-sudo apt-get install -y docker.io nvidia-container-toolkit docker-compose nvidia-docker2
+enable type-ahead-find in nautilus (jump to the file when you type the first letter just like windows):
+
+```sh
+gsettings set org.gnome.nautilus.preferences enable-interactive-search true
+```
+
+Run .sh file when double click
+
+```sh
+gsettings set org.gnome.nautilus.preferences executable-text-activation 'launch'
+```
+
+## Setting up shared `~/.cache` across users
+
+Benefit: prevent downloading the same file multiple times for each user.
+This is potentially dangerous, but I'm gonna go for it anyway.
+
+The bellow code will have a common huggingface cache directory across all users, this will make models and datasets shared and only needed to be downloaded once per machine
+
+```sh
+sudo mkdir -p /shared/.cache/huggingface/
+sudo chown -R $USER /shared/.cache/huggingface/
+mkdir -p $HOME/.cache/huggingface/
+
+sudo apt install rclone -y
+# repeat the bellow for each user <CHANGE THE USER>
+USERNAME=fhijazi
+sudo rclone copy /home/$USERNAME/.cache/huggingface/* /shared/.cache/huggingface/ -L --update --verbose
+ln -s /home/$USERNAME/.cache/huggingface/ /shared/.cache/huggingface/
+```
 
 
-# Create a group named docker
-sudo groupadd docker
-sudo usermod -aG docker $USER
-# docker-compose permission
-sudo chmod 666 /var/run/docker.sock
+fix bluetooth, from [this answer](https://askubuntu.com/a/1123633)
+
+```sh
+sudo apt-get install 'bluez*' blueman
+modprobe btusb
+sudo systemctl restart bluetooth
 
 ```
 
@@ -234,34 +212,11 @@ visit [this page](https://itectec.com/ubuntu/ubuntu-how-to-snap-a-window-in-a-co
 
 ```bash
 sudo apt install gnome-shell-extensions chrome-gnome-shell
-```
 
-```bash
 # disable mouse acceleration
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
-```
 
-```bash
 sudo apt-get install -y gnome-tweaks
-```
-
-## Packages
-
-```bash
-# redshift gtk
-sudo add-apt-repository -y ppa:dobey/redshift-daily && sudo apt update && sudo apt install -y redshift
-```
-
-```bash
-# RGB keyboard control 
-sudo add-apt-repository -y ppa:tatokis/ckb-next
-sudo apt-get update
-sudo apt install -y ckb-next
-```
-
-```bash
-# jebtrains
-wget "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz"
 ```
 
 ### Install integrated terminal inside file explorer
@@ -300,17 +255,24 @@ YouTube API key for `mpsyoutube`
 
 ```bash
 sudo apt install -y mpv
-sudo apt remove youtube-dl
-pip install -U youtube-dl
-pip install git+https://github.com/mps-youtube/mps-youtube.git
-rm ~/.config/mps-youtube/cache_py_*
+
+#sudo apt remove youtube-dl
+#pip install -U youtube-dl
+#pip install git+https://github.com/mps-youtube/mps-youtube.git
+#rm ~/.config/mps-youtube/cache_py_*
 
 # quick fix for "KeyError: 'dislike_count' in pafy"
-pip uninstall -y pafy; pip install git+https://github.com/Cupcakus/pafy
+# pip uninstall -y pafy; pip install git+https://github.com/Cupcakus/pafy
 
-mpsyt set api_key APIKEYHERE
+# mpsyt set api_key APIKEYHERE
+
+pip3 install yewtube
+
+yt
 set search_music false
-/Mick Gordon - The DOOM Hunter DOOM Eternal - Extended Gamerip, 1
+set show_video false
+/Mick Gordon - The DOOM Hunter DOOM Eternal - Extended Gamerip
+1
 
 # == more troubleshooting ==
 https://github.com/mps-youtube/mps-youtube/issues/551#issuecomment-266250991
@@ -336,6 +298,25 @@ expressvpn autoconnect yes  # (optional)
 ```bash
 # increase inotify limit
 echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+```
+
+## Packages
+
+```bash
+# redshift gtk
+sudo add-apt-repository -y ppa:dobey/redshift-daily && sudo apt update && sudo apt install -y redshift
+```
+
+```bash
+# RGB keyboard control 
+sudo add-apt-repository -y ppa:tatokis/ckb-next
+sudo apt-get update
+sudo apt install -y ckb-next
+```
+
+```bash
+# jebtrains
+wget "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz"
 ```
 
 ## Fixes
