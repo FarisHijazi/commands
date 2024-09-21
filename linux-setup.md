@@ -7,10 +7,14 @@ for anything that needs `sudo`, be sure to run `sudo --validate` before pasting 
 Setup, mostly installation stuff
 
 ```bash
-sudo add-apt-repository multiverse universe restricted main -y
+sudo add-apt-repository multiverse -y
+sudo add-apt-repository universe -y
+sudo add-apt-repository restricted -y
+sudo add-apt-repository main -y
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq
+sudo snap install astral-uv --classic
 sudo snap install code --classic
 sudo snap install ruby --classic
 cargo install dutree
@@ -202,7 +206,7 @@ sudo reboot
 Update
 
 ```bash
-sudo apt-get install docker.io nvidia-container-toolkit
+sudo apt-get install -y docker.io nvidia-container-toolkit docker-compose nvidia-docker2
 
 
 # Create a group named docker
@@ -284,6 +288,7 @@ cd /opt/
 sudo apt install node-typescript make git -y 
 git clone https://github.com/pop-os/shell.git
 cd shell
+git checkout 425f1e4dd851017be80b83cd3eeda803f0ac8f1f
 make local-install
 ```
 
