@@ -13,8 +13,8 @@ sudo add-apt-repository restricted -y
 sudo add-apt-repository main -y
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq
-sudo snap install astral-uv --classic
+sudo apt install -y curl google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq
+sudo snap install astral-uv --classic # or # curl -LsSf https://astral.sh/uv/install.sh | sh
 sudo snap install code --classic
 sudo snap install ruby --classic
 cargo install dutree
