@@ -44,6 +44,10 @@ git stash -m "original state before downloading dotfiles"
 ## sudo settings
 
 ```sh
+# disallow ssh password login
+echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+
+
 # Edit the /etc/sudoers file by typing the visudo command in the terminal window.
 sudo visudo
 Append the following entry so you can run all commands without a password.
