@@ -13,7 +13,7 @@ sudo add-apt-repository restricted -y
 sudo add-apt-repository main -y
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y curl wget ripgrep rclone rsync google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq net-tools htop nvtop iotop gpustat
+sudo apt install -y curl wget ripgrep rclone rsync google-chrome-stable snapd cargo terminator htop dconf-editor snap copyq net-tools htop nvtop iotop gpustat xclip
 sudo snap install astral-uv --classic # or # curl -LsSf https://astral.sh/uv/install.sh | sh
 sudo snap install code --classic
 sudo snap install ruby --classic
@@ -69,6 +69,19 @@ sudo tailscale up
 
 # You're connected! You can find your Tailscale IPv4 address by running:
 tailscale ip -4
+```
+
+## [Fabric AI tool](https://github.com/danielmiessler/fabric?tab=readme-ov-file#installation)
+
+```sh
+# this assumes PATH variable contains $HOME/.local/bin
+mkdir -p $HOME/.local/bin
+cd $HOME/.local/bin
+curl -L https://github.com/danielmiessler/fabric/releases/latest/download/fabric-linux-amd64 > fabric && chmod +x fabric && ./fabric --version
+sudo apt upgrade libc6 -y # might be needed if you have GLIBC error
+fabric -U # update prompts
+fabric --setup
+
 ```
 
 ## [Cloudflare WARP on linux](https://developers.cloudflare.com/warp-client/get-started/linux/)
