@@ -41,6 +41,16 @@ git stash -m "original state before downloading dotfiles"
 # or: git git reset --hard
 ```
 
+## reset `~/.ssh` permissions
+
+```sh
+sudo chmod 700 ~/.ssh
+sudo chmod 600 ~/.ssh/id_rsa
+sudo chmod 644 ~/.ssh/id_rsa.pub
+sudo chmod 600 ~/.ssh/authorized_keys
+sudo chmod 644 ~/.ssh/config
+```
+
 ## sudo settings
 
 ```sh
