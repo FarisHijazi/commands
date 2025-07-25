@@ -293,11 +293,17 @@ nautilus -q
 ## To install POP!_OS's tiling window manager on Ubuntu, run the following:
 
 ```sh
-cd /opt/
 sudo apt install node-typescript make git -y 
+
+mkdir /opt/ && cd /opt/
+sudo chown -R $USER .
 git clone https://github.com/pop-os/shell.git
 cd shell
-git checkout 425f1e4dd851017be80b83cd3eeda803f0ac8f1f
+
+git checkout master_focal # For Ubuntu 20.04, 20.10, 21.04, and 21.10.
+#git checkout master_jammy # For Ubuntu 22.04, 22.10, and 23.04.
+#git checkout master_mantic # For Ubuntu 23.10.
+#git checkout master_noble # For Ubuntu 24.04, 24.10, and later versions.
 make local-install
 ```
 
