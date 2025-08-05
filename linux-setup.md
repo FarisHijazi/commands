@@ -57,12 +57,15 @@ sudo chmod 644 ~/.ssh/config
 # disallow ssh password login
 echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
 
+# option 1
+echo "$USER ALL = (ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
+# option 2
 # Edit the /etc/sudoers file by typing the visudo command in the terminal window.
 sudo visudo
-Append the following entry so you can run all commands without a password.
-echo "$USER ALL = (ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
-Save and exit.
+# Append the following entry so you can run all commands without a password.
+# Save and exit.
+
 ```
 
 ## [fzf Fuzzy finder](https://github.com/junegunn/fzf)
