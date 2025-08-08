@@ -24,6 +24,13 @@ sudo wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -O
 # then make sure to add alias: `alias bfg="java -jar /opt/bfg-1.14.0.jar"`
 ```
 
+set automatic timezone
+```bash
+# for Saudi use Asia>Qatar as the location
+sudo dpkg-reconfigure tzdata
+timedatectl set-ntp true
+```
+
 install flameshot and setup the default shortcut like [here](https://github.com/flameshot-org/flameshot/#on-ubuntu-tested-on-1804-2004-2204)
 ```
 sudo apt install flameshot -y
