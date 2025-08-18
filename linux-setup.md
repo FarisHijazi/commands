@@ -146,6 +146,7 @@ sh Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
 $HOME/miniconda3/bin/conda config --set auto_activate_base true # (optional)
 $HOME/miniconda3/bin/conda init # (optional)
 source ~/.bashrc
+conda tos accept --override-channels --channel defaults
 conda update -y -n base -c defaults conda # (optional)
 ```
 
