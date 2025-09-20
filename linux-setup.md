@@ -24,6 +24,14 @@ sudo wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -O
 # then make sure to add alias: `alias bfg="java -jar /opt/bfg-1.14.0.jar"`
 ```
 
+## AI CLI tools
+```sh
+npm install -g @anthropic-ai/claude-code
+npm install -g @google/gemini-cli
+npm install -g @openai/codex
+curl https://cursor.com/install -fsS | bash
+```
+
 set automatic timezone
 ```bash
 # for Saudi use Asia>Qatar as the location
