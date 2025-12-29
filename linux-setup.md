@@ -24,6 +24,19 @@ sudo wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -O
 # then make sure to add alias: `alias bfg="java -jar /opt/bfg-1.14.0.jar"`
 ```
 
+## modern python stack: uv, ruff, pre-commit
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.bashrc
+uv tool install pre-commit --with pre-commit-uv --force-reinstall
+
+# Set git's template directory
+git config --global init.templateDir ~/.git-template
+# Let pre-commit set up the template hooks
+pre-commit init-templatedir ~/.git-template
+
+```
+
 ## AI CLI tools
 ```sh
 npm install -g @anthropic-ai/claude-code
